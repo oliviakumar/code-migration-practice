@@ -7,6 +7,21 @@
 </head>
 
 <script>
+    // var obj1 = new Customer();
+    // var obj2 = new Customer();
+
+    // var CustomerObj = new Customer();
+    // function UiToObject() {
+    //     CustomerObj.CustomerName = document.getElementById("CustomerName").value;
+    //     CustomerObj.CustomerCode = document.getElementById("CustomerCode").value;
+    // }
+    // function ObjectToUi() {
+    //     document.getElementById("divCustomerName").innerHTML = CustomerObj.CustomerName;
+    //     document.getElementById("divCustomerCode").innerHTML = CustomerObj.CustomerCode;
+    // }
+
+
+
     // pure js, no ng code
     function Customer() { // model should not have UI access (view)
         this.CustomerName = "Olivia";
@@ -62,7 +77,16 @@
 
 </script>
 
+<!-- bind, controller, click, model -->
+<!-- 
+    ng-controller = "customer"
+    var customer = new customer();
 
+    ng-model = "CustomerName"
+    obj.CustomerName = txtHtml
+ -->
+
+ 
 <body>
     <div ng-app="myApp">
         <!-- {{Counter}} -->
