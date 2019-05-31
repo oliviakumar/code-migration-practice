@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<head>
+    <title></title>
+</head>
+
+<script>
+    // pure js, no ng code
+    function Customer() { // model should not have UI access (view)
+        this.CustomerName = "Olivia";
+        this.CustomerCode = "1001";
+        this.CustomerAmount = 100;
+        var dt = new Date();
+        this.SalesDateTime = dt.toDateString();//toLocaleDateString();
+        this.CalculateDiscount = function() {
+            return 10;
+        }
+    }
+
+    // var $scope = new DivInstance(); vv
+    // binding function of angular?
+    function BindingCode($scope, $rootScope) { // dependency injection** inversion of control**
+                        // services
+        // debugger;
+        // $rootScope.Counter = (($rootScope.Counter || 0) + 1);
+
+        $scope.Customer = new Customer();
+
+        // var dt = new Date();
+        // $scope.SalesDateTime = dt.toDateString();//toLocaleDateString();
+
+        // $scope.CustomerName = "Olivia";
+        // $scope.CustomerCode = "514";
+        $scope.CustomerAmountColor = "Red";
+        // $scope.CustomerAmount = 100;
+
+
+        $scope.$watch("Customer.CustomerAmount", function() {
+            if ($scope.Customer.CustomerAmount > 1000) {
+                $scope.CustomerAmountColor = "Green";
+            } else {
+                $scope.CustomerAmountColor = "Blue";
+            }
+        });
+
+        $scope.Submit = function() {
+            if ($scope.Customer.CustomerName.length == 0) {
+                alert("not proper data");
+            } else {
+                alert("proper data");
+            }
+        }
+    }
+
+    var myApp = angular.module("myApp", []);
+    // myApp.controller("CustomerObj", Customer);
+    myApp.controller("BindingCode", BindingCode);
+
+
+
+</script>
+
+
+<body>
+    <div ng-app="myApp">
+        <!-- {{Counter}} -->
+        <div id="CustomerScreen" ng-controller="BindingCode">
+            <!-- Date and Time of Sales :- {{SalesDateTime}} <br/> -->
+
+            Customer Name :- <input ng-model="Customer.CustomerName" type="text" id="CustomerName" value="" /><br>
+            Customer Code :- <input ng-model="Customer.CustomerCode" type="text" id="CustomerCode" value="" /><br>
+            Customer Amount :- <input style="background-color: {{CustomerAmountColor}}" ng-model="Customer.CustomerAmount" type="text" id="CustomerAmount" value="" /><br>
+
+            <input type="button" ng-click="Submit()" name="name" value="Submit"> <br/>
+            
+            {{::Customer.SalesDateTime}} <br/>
+            {{Customer.CustomerName}}<br/>
+            {{Customer.CustomerCode}}<br/>
+            {{Customer.CustomerAmount}}<br/>
+
+
+            <!-- <div id="divCustomerName">{{ CustomerName }}</div> -->
+            <!-- <div id="divCustomerCode">{{ CustomerCode }}</div><br/> -->
+            <!-- {{1+2}} -->
+            {{ CustomerName + ' ' + CustomerCode}}
+        </div>
+        <!-- <div id="CustomerScreen" ng-controller="CustomerObj"> -->
+            <!-- Customer Name :- <input ng-model="CustomerName" type="text" id="CustomerName" value="" /><br> -->
+            <!-- Customer Code :- <input ng-model="CustomerCode" type="text" id="CustomerCode" value="" /><br> -->
+            <!-- {{CustomerName}}<br/> -->
+            <!-- {{CustomerCode}}<br/> -->
+
+            <!-- <div id="divCustomerName">{{ CustomerName }}</div> -->
+            <!-- <div id="divCustomerCode">{{ CustomerCode }}</div><br/> -->
+            <!-- {{1+2}} -->
+            <!-- {{ CustomerName + ' ' + CustomerCode}} -->
+        <!-- </div> -->
+    </div>
+</body>
+</html>
