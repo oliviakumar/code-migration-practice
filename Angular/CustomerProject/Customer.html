@@ -1,56 +1,19 @@
 <!DOCTYPE html>
 <html>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="Customer.js"></script>
+<script src="Utility.js"></script>
 
 <head>
     <title></title>
 </head>
 
 <script>
-    // var obj1 = new Customer();
-    // var obj2 = new Customer();
-
-    // var CustomerObj = new Customer();
-    // function UiToObject() {
-    //     CustomerObj.CustomerName = document.getElementById("CustomerName").value;
-    //     CustomerObj.CustomerCode = document.getElementById("CustomerCode").value;
-    // }
-    // function ObjectToUi() {
-    //     document.getElementById("divCustomerName").innerHTML = CustomerObj.CustomerName;
-    //     document.getElementById("divCustomerCode").innerHTML = CustomerObj.CustomerCode;
-    // }
-
-
-
-    // pure js, no ng code
-    function Customer() { // model should not have UI access (view)
-        this.CustomerName = "Olivia";
-        this.CustomerCode = "1001";
-        this.CustomerAmount = 100;
-        var dt = new Date();
-        this.SalesDateTime = dt.toDateString();//toLocaleDateString();
-        this.CalculateDiscount = function() {
-            return 10;
-        }
-    }
-
-    // var $scope = new DivInstance(); vv
-    // binding function of angular?
-    function BindingCode($scope, $rootScope) { // dependency injection** inversion of control**
-                        // services
-        // debugger;
-        // $rootScope.Counter = (($rootScope.Counter || 0) + 1);
-
-        $scope.Customer = new Customer();
-
-        // var dt = new Date();
-        // $scope.SalesDateTime = dt.toDateString();//toLocaleDateString();
-
-        // $scope.CustomerName = "Olivia";
-        // $scope.CustomerCode = "514";
+                                        // inject object
+    function BindingCode($scope, Factory, UtilityObject) { // dependency injection** inversion of control**
+        $scope.Customer = Factory.CreateCustomer(2, UtilityObject); // AnyObject; // new Customer();
         $scope.CustomerAmountColor = "Red";
-        // $scope.CustomerAmount = 100;
-
+        $scope.Utility = UtilityObject;
 
         $scope.$watch("Customer.CustomerAmount", function() {
             if ($scope.Customer.CustomerAmount > 1000) {
@@ -61,7 +24,8 @@
         });
 
         $scope.Submit = function() {
-            if ($scope.Customer.CustomerName.length == 0) {
+            if ($scope.Utility.IsEmpty($scope.Customer.CustomerName)) {
+            // if ($scope.Customer.CustomerName.length == 0) {
                 alert("not proper data");
             } else {
                 alert("proper data");
@@ -73,54 +37,50 @@
     // myApp.controller("CustomerObj", Customer);
     myApp.controller("BindingCode", BindingCode);
 
-
+    // factory - place where you build smth
+    myApp.factory("Factory", Factory);
+    // myApp.service("AnyObject", Customer);
+                    // param        // class of instance you want to inject
+    myApp.service("UtilityObject", Utility);
 
 </script>
 
-<!-- bind, controller, click, model -->
-<!-- 
-    ng-controller = "customer"
-    var customer = new customer();
-
-    ng-model = "CustomerName"
-    obj.CustomerName = txtHtml
- -->
-
- 
 <body>
     <div ng-app="myApp">
         <!-- {{Counter}} -->
         <div id="CustomerScreen" ng-controller="BindingCode">
             <!-- Date and Time of Sales :- {{SalesDateTime}} <br/> -->
-
+            Welcome to Application {{Utility.ApplicationName}} and the current version is {{Utility.ApplicationVersion}}.
             Customer Name :- <input ng-model="Customer.CustomerName" type="text" id="CustomerName" value="" /><br>
             Customer Code :- <input ng-model="Customer.CustomerCode" type="text" id="CustomerCode" value="" /><br>
             Customer Amount :- <input style="background-color: {{CustomerAmountColor}}" ng-model="Customer.CustomerAmount" type="text" id="CustomerAmount" value="" /><br>
 
             <input type="button" ng-click="Submit()" name="name" value="Submit"> <br/>
+            <input type="button" ng-click="Customer.CalculateDiscount()" name="name" value="Calculate Discount"> <br/>
             
             {{::Customer.SalesDateTime}} <br/>
             {{Customer.CustomerName}}<br/>
             {{Customer.CustomerCode}}<br/>
             {{Customer.CustomerAmount}}<br/>
 
-
-            <!-- <div id="divCustomerName">{{ CustomerName }}</div> -->
-            <!-- <div id="divCustomerCode">{{ CustomerCode }}</div><br/> -->
-            <!-- {{1+2}} -->
             {{ CustomerName + ' ' + CustomerCode}}
         </div>
-        <!-- <div id="CustomerScreen" ng-controller="CustomerObj"> -->
-            <!-- Customer Name :- <input ng-model="CustomerName" type="text" id="CustomerName" value="" /><br> -->
-            <!-- Customer Code :- <input ng-model="CustomerCode" type="text" id="CustomerCode" value="" /><br> -->
-            <!-- {{CustomerName}}<br/> -->
-            <!-- {{CustomerCode}}<br/> -->
-
-            <!-- <div id="divCustomerName">{{ CustomerName }}</div> -->
-            <!-- <div id="divCustomerCode">{{ CustomerCode }}</div><br/> -->
-            <!-- {{1+2}} -->
-            <!-- {{ CustomerName + ' ' + CustomerCode}} -->
-        <!-- </div> -->
+        <div id="CustomerScreen" ng-controller="BindingCode">
+                <!-- Date and Time of Sales :- {{SalesDateTime}} <br/> -->
+                Welcome to Application {{Utility.ApplicationName}} and the current version is {{Utility.ApplicationVersion}}.
+                Customer Name :- <input ng-model="Customer.CustomerName" type="text" id="CustomerName" value="" /><br>
+                Customer Code :- <input ng-model="Customer.CustomerCode" type="text" id="CustomerCode" value="" /><br>
+                Customer Amount :- <input style="background-color: {{CustomerAmountColor}}" ng-model="Customer.CustomerAmount" type="text" id="CustomerAmount" value="" /><br>
+    
+                <input type="button" ng-click="Submit()" name="name" value="Submit"> <br/>
+                
+                {{::Customer.SalesDateTime}} <br/>
+                {{Customer.CustomerName}}<br/>
+                {{Customer.CustomerCode}}<br/>
+                {{Customer.CustomerAmount}}<br/>
+    
+                {{ CustomerName + ' ' + CustomerCode}}
+        </div>
     </div>
 </body>
 </html>
