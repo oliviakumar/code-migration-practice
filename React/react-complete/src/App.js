@@ -52,13 +52,25 @@ class App extends Component {
     })
   }
 
+  nameChangedHandler = (event) => {
+    this.setState({
+      persons: [
+        { name: "Liv", age: 25},
+        { name: "Sherry", age: 27},
+        { name: event.target.value, age: 24}
+      ]
+    })
+  }
+
   render() {
     return (
       <div className="App">
         <h1> React App </h1>
         <p>Hi</p>
                         {/* // not inside class so don't need this keyword */}
-        <button onClick={this.switchNameHandler.bind(this, 'Olivia Kumar')}>Switch Name</button>
+        {/* <button onClick={this.switchNameHandler.bind(this, 'Olivia Kumar')}>Switch Name</button> */}
+        <button onClick={() => this.switchNameHandler('Olivia Kumar')}>Switch Name</button>
+
                         {/* // personsState is functional component */}
         <Person
           name={this.state.persons[0].name}
@@ -66,7 +78,8 @@ class App extends Component {
         <Person
           name={this.state.persons[1].name}
           age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Catherine')}> What is happening? </Person>
+          click={this.switchNameHandler.bind(this, 'Catherine')}
+          changed={this.nameChangedHandler}> What is happening? </Person>
         <Person
           name={this.state.persons[2].name}
           age={this.state.persons[2].age}> What is happening? </Person>
