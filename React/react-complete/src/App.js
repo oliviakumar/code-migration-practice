@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Person from './Person/Person';
 
+
 class App extends Component {
 // const app = props => {
   // returns array with two elems
@@ -24,7 +25,8 @@ class App extends Component {
       { name: "Asher", age: 26},
       { name: "Cathy", age: 24}
     ],
-    otherState: 'other val'
+    otherState: 'other val',
+    showPersons: false
   };
   // const [otherState, setOtherState] = useState('some other val');
 
@@ -62,29 +64,50 @@ class App extends Component {
     })
   }
 
+  togglePersonHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({showPersons: !doesShow});
+  };
+
   render() {
+    const style = {
+      backgroundColor: 'white',
+      font: 'inherit',
+      bonder: '1px solid blue',
+      padding: '8px',
+      cursor: 'pointer'
+    };
+
     return (
       <div className="App">
         <h1> React App </h1>
         <p>Hi</p>
                         {/* // not inside class so don't need this keyword */}
         {/* <button onClick={this.switchNameHandler.bind(this, 'Olivia Kumar')}>Switch Name</button> */}
-        <button onClick={() => this.switchNameHandler('Olivia Kumar')}>Switch Name</button>
+        <button
+        style={style}
+        // onClick={() => this.switchNameHandler('Olivia Kumar')}>Switch Name</button>
+        onClick={this.togglePersonHandler}>Switch Name</button>
 
                         {/* // personsState is functional component */}
-        <Person
-          name={this.state.persons[0].name}
-          age={this.state.persons[0].age}> What is happening? </Person>
-        <Person
-          name={this.state.persons[1].name}
-          age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Catherine')}
-          changed={this.nameChangedHandler}> What is happening? </Person>
-        <Person
-          name={this.state.persons[2].name}
-          age={this.state.persons[2].age}> What is happening? </Person>
-        {/* <Person name={this.state.persons[2].name}> What is happening? </Person> */}
-        {/* only exists in class based react components */}
+        {
+          this.state.showPersons ?
+            <div>
+              <Person
+                name={this.state.persons[0].name}
+                age={this.state.persons[0].age}> What is happening? </Person>
+              <Person
+                name={this.state.persons[1].name}
+                age={this.state.persons[1].age}
+                click={this.switchNameHandler.bind(this, 'Catherine')}
+                changed={this.nameChangedHandler}> What is happening? </Person>
+              <Person
+                name={this.state.persons[2].name}
+                age={this.state.persons[2].age}> What is happening? </Person>
+              {/* <Person name={this.state.persons[2].name}> What is happening? </Person> */}
+              {/* only exists in class based react components */}
+            </div> : null
+        }
       </div>
     );
                               // where?    // config // # of children nested inside first arg
