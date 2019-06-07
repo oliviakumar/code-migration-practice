@@ -78,7 +78,8 @@ class App extends Component {
 
   render() {
     const style = {
-      backgroundColor: 'white',
+      // backgroundColor: 'white',
+      backgroundColor: 'green',
       font: 'inherit',
       bonder: '1px solid blue',
       padding: '8px',
@@ -96,7 +97,7 @@ class App extends Component {
               age={person.age}
               click={() => this.deletePersonHandler(index)}
               key={person.id}
-              changed={this.name}/>
+              changed={this.nameChangedHandler}/>
           })}
           {/* <Person
             name={this.state.persons[0].name}
@@ -113,12 +114,25 @@ class App extends Component {
           {/* only exists in class based react components */}
       </div>
       );
+      style.backgroundColor = 'red';
+    }
+
+    // let classes = ['red', 'bold'].join(' ');
+    // let classes = []; // let is es6 version of var
+    const classes = [];
+    if (this.state.persons.length <= 2) {
+      classes.push('red');
+    }
+    if (this.state.persons.length <= 1) {
+      classes.push('bold');
     }
 
     return (
       <div className="App">
         <h1> React App </h1>
-        <p>Hi</p>
+        <p className={classes.join(' ')}>Will the real slim shady please stand up?</p>
+
+        {/* <p className={classes}>Will the real slim shady please stand up?</p> */}
                         {/* // not inside class so don't need this keyword */}
         {/* <button onClick={this.switchNameHandler.bind(this, 'Olivia Kumar')}>Switch Name</button> */}
         <button
