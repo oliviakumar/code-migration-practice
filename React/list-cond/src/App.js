@@ -38,7 +38,6 @@ class App extends Component {
         key={index}
         clicked={() => this.removeCharHandler(index)}
         />;
-
     });
 
     return (
