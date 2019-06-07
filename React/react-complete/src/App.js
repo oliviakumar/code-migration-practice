@@ -21,9 +21,9 @@ class App extends Component {
 
   state = {
     persons: [
-      { name: "Olivia", age: 25},
-      { name: "Asher", age: 26},
-      { name: "Cathy", age: 24}
+      { id: '', name: "Olivia", age: 25},
+      { id: '', name: "Asher", age: 26},
+      { id: '', name: "Cathy", age: 24}
     ],
     otherState: 'other val',
     showPersons: false
@@ -64,6 +64,13 @@ class App extends Component {
     })
   }
 
+  deletePersonHandler = (personIndex) => {
+    // const persons = this.state.persons;
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({persons: persons});
+  }
+
   togglePersonHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({showPersons: !doesShow});
@@ -78,6 +85,36 @@ class App extends Component {
       cursor: 'pointer'
     };
 
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => {
+            return <Person
+              name={person.name}
+              age={person.age}
+              click={() => this.deletePersonHandler(index)}
+              key={person.id}
+              changed={this.name}/>
+          })}
+          {/* <Person
+            name={this.state.persons[0].name}
+            age={this.state.persons[0].age}> What is happening? </Person>
+          <Person
+            name={this.state.persons[1].name}
+            age={this.state.persons[1].age}
+            click={this.switchNameHandler.bind(this, 'Catherine')}
+            changed={this.nameChangedHandler}> What is happening? </Person>
+          <Person
+            name={this.state.persons[2].name}
+            age={this.state.persons[2].age}> What is happening? </Person> */}
+          {/* <Person name={this.state.persons[2].name}> What is happening? </Person> */}
+          {/* only exists in class based react components */}
+      </div>
+      );
+    }
+
     return (
       <div className="App">
         <h1> React App </h1>
@@ -90,24 +127,8 @@ class App extends Component {
         onClick={this.togglePersonHandler}>Switch Name</button>
 
                         {/* // personsState is functional component */}
-        {
-          this.state.showPersons ?
-            <div>
-              <Person
-                name={this.state.persons[0].name}
-                age={this.state.persons[0].age}> What is happening? </Person>
-              <Person
-                name={this.state.persons[1].name}
-                age={this.state.persons[1].age}
-                click={this.switchNameHandler.bind(this, 'Catherine')}
-                changed={this.nameChangedHandler}> What is happening? </Person>
-              <Person
-                name={this.state.persons[2].name}
-                age={this.state.persons[2].age}> What is happening? </Person>
-              {/* <Person name={this.state.persons[2].name}> What is happening? </Person> */}
-              {/* only exists in class based react components */}
-            </div> : null
-        }
+
+        {persons}
       </div>
     );
                               // where?    // config // # of children nested inside first arg
