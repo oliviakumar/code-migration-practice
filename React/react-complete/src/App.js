@@ -1,7 +1,7 @@
                 // hook is used to manage state in functional component
 // import React, { useState } from 'react';
 import React, { Component } from 'react';
-
+import Radium, {StyleRoot} from 'radium';
 import './App.css';
 import Person from './Person/Person';
 
@@ -83,7 +83,12 @@ class App extends Component {
       font: 'inherit',
       bonder: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      // assign property with radium
+      ':hover': {
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -115,6 +120,10 @@ class App extends Component {
       </div>
       );
       style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      };
     }
 
     // let classes = ['red', 'bold'].join(' ');
@@ -151,8 +160,8 @@ class App extends Component {
 
   }
 }
-
-export default App;
+              // higher ordered component
+export default Radium(App);
 // export default app;
 
 // state = ;
