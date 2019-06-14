@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import classes from './App.css';
+import Person from '../components/Persons/Person/Person';
 import Persons from '../components/Persons/Persons';
 
 class App extends Component {
@@ -13,25 +14,39 @@ class App extends Component {
     showPersons: false
   };
 
-  switchNameHandler = (newName) => {
-    this.setState({
-      persons: [
-        { name: "Liv", age: 25},
-        { name: "Sherry", age: 27},
-        { name: newName, age: 24}
-      ]
-    })
-  }
+  // switchNameHandler = (newName) => {
+  //   this.setState({
+  //     persons: [
+  //       { name: "Liv", age: 25},
+  //       { name: "Sherry", age: 27},
+  //       { name: newName, age: 24}
+  //     ]
+  //   })
+  // }
 
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: "Liv", age: 25},
-        { name: "Sherry", age: 27},
-        { name: event.target.value, age: 24}
-      ]
-    })
+  nameChangedHandler = (event, id) => {
+    // this.setState({
+    //   persons: [
+    //     { name: "Liv", age: 25},
+    //     { name: "Sherry", age: 27},
+    //     { name: event.target.value, age: 24}
+    //   ]
+    // })
+    const personIndex = this.state.persons.findIndex( p => {
+      return p.id == id;
+    });
+
+    const person = {
+      ...this.state.persons[personIndex]
+    };
+
+    person.name = event.target.value;
+    
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+    this.setState({persons:persons});
   }
+    
 
   deletePersonHandler = (personIndex) => {
     const persons = [...this.state.persons];
@@ -47,6 +62,7 @@ class App extends Component {
   render() {
     const style = {
       backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       bonder: '1px solid blue',
       padding: '8px',
@@ -59,11 +75,19 @@ class App extends Component {
     if (this.state.showPersons) {
       persons = (
         <div>
-          <Persons
+          {this.state.persons.map((person, index) => {
+            return <Person
+              click={() => this.deletePersonHandler(index)}
+              name={person.name}
+              age={person.age}
+              key={person.id}
+              changed={( event ) => this.nameChangedHandler(event, person.id)} />
+          })}
+          {/* <Persons
             persons={this.state.persons}
             clicked={this.deletePersonHandler}
             changed={this.nameChangedHandler}
-          />
+          /> */}
         </div>
       );
       style.backgroundColor = 'red';
