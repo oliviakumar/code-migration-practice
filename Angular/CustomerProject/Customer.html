@@ -3,14 +3,57 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="Customer.js"></script>
 <script src="Utility.js"></script>
+<script src="UserControl1.html"></script>
+
 
 <head>
     <title></title>
 </head>
 
 <script>
+    function CopyRight() {
+        var directive = {}; // new JSON object
+        directive.restrict = 'E'; // TODO what is the benefit of E vs. A? or EA?
+                                    // static and dynamic content
+        directive.template = "@CopyRight 2019 {{Customer.CustomerName}}";
+        return directive;
+    }
+    // function UserControl() {
+    //     var directive = {}; // new JSON object
+    //     directive.templateUrl = "UserControl1.html";
+    //     return directive;
+    // }
                                         // inject object
-    function BindingCode($scope, Factory, UtilityObject) { // dependency injection** inversion of control**
+    function BindingCode($scope, Factory, UtilityObject, $q) { // dependency injection** inversion of control**
+        // from Q --> defer object
+            // defer --> promise object
+            // attach logic to promise object
+        var defer = $q.defer();
+        
+        var promise = defer.promise;
+        // promise.then($scope.setCustomers(), $scope.Failure1());
+        promise.then(setCustomers(), Failure1());
+        // promise.then($scope.clearCustomers(), $scope.Failure2());//, notification1());
+        promise.then(clearCustomers(), Failure2());//, notification1());
+
+
+        // $scope.setCustomers = function(data) {
+        function setCustomers(data) {
+            $scope.customers = data;
+        }
+        // $scope.clearCustomers = function() {
+        function clearCustomers() {
+            $scope.customers = {};
+        }
+
+        // $scope.Failure1 = function() {
+        function Failure1() {
+            alert("Failure1");
+        }
+        // $scope.Failure2 = function() {
+        function Failure2() {
+            alert("Failure2");
+        }
         $scope.Customer = Factory.CreateCustomer(2, UtilityObject); // AnyObject; // new Customer();
         $scope.CustomerAmountColor = "Red";
         $scope.Utility = UtilityObject;
@@ -27,8 +70,16 @@
             if ($scope.Utility.IsEmpty($scope.Customer.CustomerName)) {
             // if ($scope.Customer.CustomerName.length == 0) {
                 alert("not proper data");
-            } else {
+            } else if (!$scope.Utility.IsEmpty($scope.Customer.CustomerName)) {
                 alert("proper data");
+            } else {
+                // TODO post request
+                success(function (data) {
+                    debugger;
+                    defer.resolve(data);
+                }).error(function(err) {
+                    defer.reject();
+                });
             }
         }
     }
@@ -43,6 +94,11 @@
                     // param        // class of instance you want to inject
     myApp.service("UtilityObject", Utility);
 
+    myApp.directive("copyright", CopyRight);
+    // need to register directive
+    // myApp.directive("user-control", UserControl);
+
+
 </script>
 
 <body>
@@ -50,7 +106,7 @@
         <!-- {{Counter}} -->
         <div id="CustomerScreen" ng-controller="BindingCode">
             <!-- Date and Time of Sales :- {{SalesDateTime}} <br/> -->
-            Welcome to Application {{Utility.ApplicationName}} and the current version is {{Utility.ApplicationVersion}}.
+            Welcome to Application {{Utility.ApplicationName}} and the current version is {{Utility.ApplicationVersion}}.<br>
             Customer Name :- <input ng-model="Customer.CustomerName" type="text" id="CustomerName" value="" /><br>
             Customer Code :- <input ng-model="Customer.CustomerCode" type="text" id="CustomerCode" value="" /><br>
             Customer Amount :- <input style="background-color: {{CustomerAmountColor}}" ng-model="Customer.CustomerAmount" type="text" id="CustomerAmount" value="" /><br>
@@ -64,10 +120,18 @@
             {{Customer.CustomerAmount}}<br/>
 
             {{ CustomerName + ' ' + CustomerCode}}
+            
+            <div copyright></div>
+            <!-- <copyright-tag> -->
+            <!-- </copyright-tag> -->
+            <!-- <copyRightTag></copyRightTag> --> <!-- pascal naming conv -->
+            <div user-control></div>
+            <br><br>
+
         </div>
         <div id="CustomerScreen" ng-controller="BindingCode">
                 <!-- Date and Time of Sales :- {{SalesDateTime}} <br/> -->
-                Welcome to Application {{Utility.ApplicationName}} and the current version is {{Utility.ApplicationVersion}}.
+                Welcome to Application {{Utility.ApplicationName}} and the current version is {{Utility.ApplicationVersion}}.<br>
                 Customer Name :- <input ng-model="Customer.CustomerName" type="text" id="CustomerName" value="" /><br>
                 Customer Code :- <input ng-model="Customer.CustomerCode" type="text" id="CustomerCode" value="" /><br>
                 Customer Amount :- <input style="background-color: {{CustomerAmountColor}}" ng-model="Customer.CustomerAmount" type="text" id="CustomerAmount" value="" /><br>
