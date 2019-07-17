@@ -29,17 +29,20 @@ class App extends Component {
     // const personIndex = this.state.persons.findIndex(p => {
     //   return p === i;
     // });
-    // const persons = [...this.state.persons]; // const persons = {...this.state.persons};
-    const persons2 = {
-      ...this.state.persons[i]
-    };
+    const persons = [...this.state.persons]; // const persons = {...this.state.persons};
+    // const persons2 = {
+    //   ...this.state.persons[i]
+    // };
+    // console.log(persons2);
 
     // const person = Object.assign({}, this.state.persons[i]); // console.log(person);
     // console.log(persons);
     // console.log(persons2);
-    // persons[i].name = event.target.value;
-    persons2.name = event.target.value;
-    this.setState({persons2});
+    persons[i].name = event.target.value;
+    // persons2.name = event.target.value;
+    // console.log(persons2.name);
+    this.setState({persons});
+    // this.setState(...{persons: persons2});
   }
 
   togglePersonHandler = () => {
@@ -73,29 +76,10 @@ class App extends Component {
   
     if (this.state.showPersons) {
       persons = (<div>
-
-        {this.state.persons.map((p, i) => {
-          if (i === 2) {
-            return <Person
-              key={i}
-              name={p.name}
-              height={p.height}
-              changed={(event) => this.handleEntryChange(event, i)}
-              clicked={() => this.deletePersonHandler(i)}
-            > tee hee 69 </Person>;
-          } else {
-              return <Person
-                key={i}
-                name={p.name}
-                height={p.height}
-                changed={(event) => this.handleEntryChange(event, i)}
-                clicked={(event) => this.deletePersonHandler(event, i)}
-                // TODO: how to pass i to handleEntryChange??
-                // TODO: why do you not need to pass i in the first parens???? and error if you do...
-                // TODO: why does event not need to be accepted by deletePersonHandler????????
-              />;
-          }
-        })}
+        <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.handleEntryChange}/>
       </div>)
     }
 
@@ -114,7 +98,35 @@ class App extends Component {
   }
 }
 export default App;
+
+// {this.state.persons.map((p, i) => {
+//   if (i === 2) {
+//     return <Person
+//       key={i}
+//       name={p.name}
+//       height={p.height}
+//       changed={(event) => this.handleEntryChange(event, i)}
+//       clicked={() => this.deletePersonHandler(i)}
+//     > tee hee 69 </Person>;
+//   } else {
+//       return <Person
+//         key={i}
+//         name={p.name}
+//         height={p.height}
+//         changed={(event) => this.handleEntryChange(event, i)}
+//         clicked={(event) => this.deletePersonHandler(event, i)}
+//         // TODO: how to pass i to handleEntryChange??
+//         // TODO: why do you not need to pass i in the first parens???? and error if you do...
+//         // TODO: why does event not need to be accepted by deletePersonHandler????????
+//       />;
+//   }
+// })}
+{/* <Persons
+          persons={this.state.persons}
+          clicked={this.deletePersonHandler}
+          changed={this.handleEntryChange}/> */}
                 {/* changed={(event, i) => this.handleEntryChange(event, i)} */}
+          {/* changed={(event, i) => this.handleEntryChange(event, i)} /> */}
 
 
           {/* this.state.showPersons === true ?
