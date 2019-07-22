@@ -12,6 +12,7 @@ const CounterList = (props) => {
                     style={props.style}
                     inClick={() => props.inClick(i)}
                     deClick={() => props.deClick(i)}
+                    inClicked={() => props.inClicked(i)}
                     removeCounter={() => props.removeCounter(i)}
                   />
         })}

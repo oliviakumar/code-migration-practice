@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 // import Counter from './components/Counter/Counter';
 import CounterList from './components/CounterList/CounterList';
+import { connect } from 'react-redux';
 
 class App extends Component {
   state = {
@@ -42,16 +43,28 @@ class App extends Component {
   }
 
   render() {
+    const list = '';
     return (
       <div className="App">
         <header className="App-header">
           {/* <Counter counter={0} style={buttonStyle} /> */}
           {/* <Counter counter={0} style={styleAlt}/> */}
+          <div>
+            <div>
+              {this.state.counters.map((counter, i) => {
+                {/* list.append(c + ': ' + i); */}
+                {/* return list; */}
+                return(counter.value + ': ' + i + '\n');
+              })}
+            </div>
+          </div>
           <CounterList
             style={buttonStyle}
             counters={this.state.counters}
             inClick={this.inClick}
             deClick={this.deClick}
+            inClicked={this.props.incCounter}
+
             removeCounter={this.removeCounter}
             addCounter={this.addCounter}
           />
@@ -110,4 +123,21 @@ const styleAlt = {
 //   App,
 //   document.getElementById('root')
 // );
-export default App;
+
+const mapStateToProps = (state) => {
+  return {
+    counter: state.counter,
+    results: state.results,
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+      incCounter: () => dispatch({type: 'INC', value: 1}),
+      decCounter: () => dispatch({type: 'DEC', value: 1}),
+      addCounter: () => dispatch({type: 'ADD_COUNTER'}),
+      delCounter: () => dispatch({type: 'DEL_COUNTER'}),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

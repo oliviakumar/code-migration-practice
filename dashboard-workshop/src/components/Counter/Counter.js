@@ -9,10 +9,12 @@ const Counter = (props) => {
         <button style={props.style} onClick={props.deClick}> - </button>
           {props.counter}
           {/* {props.id} */}
-        <button style={props.style} onClick={props.inClick}> + </button>
+        <button style={props.style} onClick={props.inClicked}> + </button>
       </div>
     )
   // }
 }
+
+
 
 export default Counter;
